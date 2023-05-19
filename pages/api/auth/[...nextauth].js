@@ -9,7 +9,8 @@ export const authOptions = {
                 twitterHandle: profile.screen_name,
                 tweetsCount: profile.statuses_count,
                 likesCount: profile.favourites_count,
-                userID: profile.id
+                userID: profile.id,
+                createdAt: profile.created_at
             }
         }
         if (account) {
