@@ -76,7 +76,7 @@ export default function Airdrop() {
 
     async function addPoints(referrer, points) {
         try {
-            const res = await fetch('/api/addpoints', {
+            await fetch('/api/addpoints', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
