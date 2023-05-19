@@ -22,6 +22,7 @@ export default function Airdrop() {
     const [notOldEnough, setNotOldEnough] = useState(false)
     const [referrer, setReferrer] = useState()
     const [referrerData, setReferrerData] = useState()
+    const [pointsRewarded, setPointsRewarded] = useState(false)
 
     // Success & Error Messages
 
@@ -67,7 +68,7 @@ export default function Airdrop() {
     // useEffect waiting for referralCode to be pasted
 
     useEffect(() => {
-        if (referrer?.length === 10) {
+        if (referrer) {
             getUserByCode()
         }
     }, [referrer])
@@ -87,6 +88,9 @@ export default function Airdrop() {
                 })
             })
         
+            if (res.ok) {
+                setPointsRewarded(true)
+            }
 
         } catch (error) {
             console.log(error)
@@ -132,6 +136,14 @@ export default function Airdrop() {
         }
       
         try {
+          if (referrer) {
+            try {
+                await addPoints(referrerData.referralCode, referrerData.points+5000)
+            } catch (error) {
+                badToast("Invite code doesn't exist")
+                return
+            }
+          } 
           const res = await fetch("/api/users", {
             method: "POST",
             headers: {
@@ -148,13 +160,10 @@ export default function Airdrop() {
           const json = await res.json();
       
           if (res.ok) {
-            try {
-                await addPoints(referrerData.referralCode, referrerData.points+5000)
-                successToast('Points rewarded to ' + referrerData.address)
-            } catch (error) {
-                badToast('Bad Invite Code')
-            }
             successToast('Airdrop Confirmed');
+            if (referrer) {
+                successToast('Points reward to ' + referrerData?.address)
+            }
           } else {
             badToast(json.error);
           }
