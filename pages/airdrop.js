@@ -162,7 +162,7 @@ export default function Airdrop() {
           if (res.ok) {
             successToast('Airdrop Confirmed');
             if (referrer) {
-                successToast('Points reward to ' + referrerData?.address)
+                successToast('Points rewarded to ' + referrerData?.address)
             }
           } else {
             badToast(json.error);
