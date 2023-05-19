@@ -22,7 +22,6 @@ export default function Airdrop() {
     const [notOldEnough, setNotOldEnough] = useState(false)
     const [referrer, setReferrer] = useState()
     const [referrerData, setReferrerData] = useState()
-    const [pointsRewarded, setPointsRewarded] = useState(false)
 
     // Success & Error Messages
 
@@ -87,10 +86,6 @@ export default function Airdrop() {
                     points: points
                 })
             })
-        
-            if (res.ok) {
-                setPointsRewarded(true)
-            }
 
         } catch (error) {
             console.log(error)
