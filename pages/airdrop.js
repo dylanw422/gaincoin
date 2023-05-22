@@ -144,7 +144,7 @@ export default function Airdrop() {
         }
     }
 
-    // GET Request for all users *Leaderboard*
+    // GET Request for all users *Leaderboard* sorted by points desc
 
     async function getLeaderboard() {
         const res = await fetch("/api/users", {

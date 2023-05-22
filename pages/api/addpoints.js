@@ -1,9 +1,6 @@
 import { getUserWithCode } from 'prisma/users'
-import { getServerSession } from "next-auth"
-import { authOptions } from "./auth/[...nextauth]"
 
 export default async function handler(req, res) {
-    const session = await getServerSession(req, res, authOptions)
     try {
         switch (req.method) {
             case 'GET': {
