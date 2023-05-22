@@ -8,9 +8,10 @@ datasource db {
 }
 
 model users {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
-  address      String @unique
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  address      String  @unique
   points       Int
-  referralCode String @unique
-  twitter      String @unique
+  referralCode String  @unique
+  referrer     String?
+  twitter      String  @unique
 }

@@ -1,6 +1,9 @@
-import { getUserWithCode, updateUsersPoints } from 'prisma/users'
+import { getUserWithCode } from 'prisma/users'
+import { getServerSession } from "next-auth"
+import { authOptions } from "./auth/[...nextauth]"
 
 export default async function handler(req, res) {
+    const session = await getServerSession(req, res, authOptions)
     try {
         switch (req.method) {
             case 'GET': {
@@ -8,11 +11,6 @@ export default async function handler(req, res) {
                     const user = await getUserWithCode(req.query.referralCode)
                     return res.status(200).json(user)
                 }
-            }
-            case 'POST': {
-                const { referrer, points } = req.body
-                const user = await updateUsersPoints(referrer, points)
-                return res.json(user)
             }
         }
     } catch (error) {

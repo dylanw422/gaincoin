@@ -14,18 +14,6 @@ export const getUserWithCode = async (referralCode) => {
     return user
 }
 
-export const updateUsersPoints = async (referralCode, points) => {
-    const user = await prisma.users.update({
-        where: {
-            referralCode: referralCode
-        },
-        data: {
-            points: points
-        }
-    })
-    return user
-}
-
 export const getAllUser = async () => {
     const users = await prisma.users.findMany({
         orderBy: [
@@ -37,14 +25,51 @@ export const getAllUser = async () => {
     return users
 }
 
-export const createUser = async ( address, points, referralCode, twitter ) => {
-    const user = await prisma.users.create({
-        data: {
-            address,
-            points,
-            referralCode,
-            twitter
-        }
+export const getLeaderboard = async () => {
+    const users = await prisma.users.groupBy({
+        by: ['referrer'],
+        _count: { referrer: true },
+        orderBy: {
+            _count: {
+                referrer: 'desc'
+            }
+        },
     })
-    return user
+    return users
 }
+
+export const createUser = async (address, points, referralCode, twitter, referrer) => {
+    const user = await prisma.users.create({
+      data: {
+        address,
+        points,
+        referralCode,
+        twitter,
+        referrer
+      }
+    });
+  
+    // Check if the user has a referrer
+    if (referrer) {
+      const referrerUser = await prisma.users.findUnique({
+        where: {
+          referralCode: referrer
+        }
+      });
+  
+      // If the referrer user exists, update their points
+      if (referrerUser) {
+        const updatedPoints = referrerUser.points + 5000;
+        await prisma.users.update({
+          where: {
+            referralCode: referrer
+          },
+          data: {
+            points: updatedPoints
+          }
+        });
+      }
+    }
+  
+    return user;
+  };

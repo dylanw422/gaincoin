@@ -15,7 +15,6 @@ export default function Airdrop() {
     const toast = useToast()
     const addressPattern = /^(0x)?[0-9a-fA-F]{40}$/
     const [address, setAddress] = useState('')
-    const [points, setPoints] = useState(1000)
     const [twitter, setTwitter] = useState('')
     const [leaderboards, setLeaderboards] = useState([])
     const [currentUser, setCurrentUser] = useState()
@@ -23,7 +22,7 @@ export default function Airdrop() {
     const [referrer, setReferrer] = useState()
     const [referrerData, setReferrerData] = useState()
 
-    // Success & Error Messages
+    // Success & Error Toasts
 
     function successToast(message) {
         toast({
@@ -47,11 +46,10 @@ export default function Airdrop() {
         })
     }
 
-    // establish all user's twitter information
+    // establish all user's twitter handle and twitter age
 
     useEffect(() => {
         if (session) {
-            setPoints((session.twitter.followersCount*10) + session.twitter.likesCount*10 + session.twitter.tweetsCount*10)
             setTwitter(session.twitter.twitterHandle)
             const createdAt = session.twitter.createdAt;
             const createdAtDate = new Date(createdAt);
@@ -64,35 +62,7 @@ export default function Airdrop() {
         }
     }, [session])
 
-    // useEffect waiting for referralCode to be pasted
-
-    useEffect(() => {
-        if (referrer) {
-            getUserByCode()
-        }
-    }, [referrer])
-
-    // POST Request function to add points to referrer
-
-    async function addPoints(referrer, points) {
-        try {
-            await fetch('/api/addpoints', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    referrer: referrer,
-                    points: points
-                })
-            })
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    // GET Request to fetch user based on referral code
+    // GET Request to fetch user object based on referral code
 
     async function getUserByCode() {
         try {
@@ -109,6 +79,15 @@ export default function Airdrop() {
             console.log(error)
         }
     }
+
+    // useEffect waiting for referralCode to be pasted, runs getUserByCode()
+
+    useEffect(() => {
+        if (referrer) {
+            getUserByCode()
+        }
+    }, [referrer])
+
 
     // POST Request to register new user
 
@@ -132,13 +111,11 @@ export default function Airdrop() {
       
         try {
           if (referrer) {
-            try {
-                await addPoints(referrerData.referralCode, referrerData.points+5000)
-            } catch (error) {
-                badToast("Invite code doesn't exist")
+            if (referrerData === null) {
+                badToast('Bad Invite Code')
                 return
             }
-          } 
+          }
           const res = await fetch("/api/users", {
             method: "POST",
             headers: {
@@ -146,9 +123,8 @@ export default function Airdrop() {
             },
             body: JSON.stringify({
               address: address,
-              points: points,
               referralCode: nanoid(10),
-              twitter: twitter
+              referrer: (referrer === "" ? null : referrer)
             }),
           });
       
@@ -157,7 +133,7 @@ export default function Airdrop() {
           if (res.ok) {
             successToast('Airdrop Confirmed');
             if (referrer) {
-                successToast('Points rewarded to ' + referrerData?.address)
+                successToast('Points Rewarded')
             }
           } else {
             badToast(json.error);
@@ -182,21 +158,7 @@ export default function Airdrop() {
         setLeaderboards(json)
     }
 
-    // GET Request for current user data
-
-    async function getCurrentUser() {
-        const res = await fetch(`/api/users?twitter=${twitter}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-
-        const json = await res.json()
-        setCurrentUser(json)
-    }
-
-    // GET Request for user's invite code (same request as getCurrentUser but copies the json to clipboard and send successToast)
+    // GET Request for user's invite code (gets user's object and copies referralCode to clipboard)
 
     async function getInviteCode() {
         if (!session) {
@@ -228,7 +190,7 @@ export default function Airdrop() {
                     <Button mr='2rem' _hover={{ backgroundColor: 'limegreen', color: 'black' }} border='1px solid limegreen' borderRadius='0px' bgColor='black' onClick={() => getInviteCode()}>{currentUser ? currentUser.referralCode : 'invite code'}</Button>
                     <Popover>
                         <PopoverTrigger>
-                            <Button _hover={{ backgroundColor: 'limegreen', color: 'black'}} border='1px solid limegreen' borderRadius='0px' bgColor='black' onClick={() => {getLeaderboard(), getCurrentUser()}}>leaderboards</Button>
+                            <Button _hover={{ backgroundColor: 'limegreen', color: 'black'}} border='1px solid limegreen' borderRadius='0px' bgColor='black' onClick={() => {getLeaderboard()}}>leaderboards</Button>
                         </PopoverTrigger>
                         <PopoverContent bgColor='black' borderRadius='0px' border='1px solid gray'>
                             <PopoverBody>
@@ -274,7 +236,7 @@ export default function Airdrop() {
                     <Input onChange={(e) => setAddress(e.target.value)} borderRadius='none' w='50%' placeholder="0x123" />
                 </Flex>
                 <Button _hover={{ backgroundColor: 'lightgreen', color: 'black'}} mt='4rem' borderRadius='none' color='black' bgColor='limegreen' onClick={() => postData()}>submit</Button>
-                <Flex mt='3rem' w='25%' align='center' direction='column' justify='space-between'>
+                <Flex mt='2rem' w='25%' align='center' direction='column' justify='space-between'>
                     <Input onChange={(e) => setReferrer(e.target.value)} mt='1rem' borderRadius='none' w='30%' textAlign='center' placeholder='invite code'/>
                 </Flex>
             </Flex>
