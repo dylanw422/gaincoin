@@ -13,7 +13,7 @@ export default function Home() {
     <Flex w='100%' h='100vh' bgColor='black' direction='column'>
       <Flex p={isLargerThan600 ? '0% 10%' : '20% 10%'} w='100%' justify={isLargerThan600 ? 'space-between' : 'center'} align='center' h='8vh'>
         <Text fontSize='30px'>GAINCOIN</Text>
-        <Link as={NextLink} href='/airdrop'>
+        <Link _hover={{ textDecoration: 'none' }} as={NextLink} href='/airdrop'>
           <Button display={isLargerThan600 ? 'flex' : 'none'} _hover={{ backgroundColor: 'limegreen', color: 'black'}} border='1px solid limegreen' borderRadius='0px' bgColor='black'>join airdrop</Button>
         </Link>
       </Flex>
