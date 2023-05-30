@@ -16,7 +16,7 @@ export const authOptions = {
         if (account) {
             token['credentials'] = {
                 authToken: account.oauth_token,
-                authSecret: account.oauth_token_secret
+                authSecret: account.oauth_token_secret,
             }
         }
         return token
@@ -24,6 +24,7 @@ export const authOptions = {
     async session({ session, token, user }) {
         let userData = token.userProfile
         session.twitter = userData
+        session.token = token
         return session
     }
   },

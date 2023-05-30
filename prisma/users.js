@@ -59,7 +59,7 @@ export const createUser = async (address, points, referralCode, twitter, referre
   
       // If the referrer user exists, update their points
       if (referrerUser) {
-        const updatedPoints = referrerUser.points + 5000;
+        const updatedPoints = referrerUser.points + 10000;
         await prisma.users.update({
           where: {
             referralCode: referrer

@@ -18,7 +18,14 @@ const theme = extendTheme({
     fontWeights: {
         normal: 300,
         bold: 500
-    }
+    },
+    styles: {
+        global: (props) => ({
+          body: {
+            bg: props.colorMode === "dark" ? "black" : "black",
+          },
+        }),
+    },
 })
 
 export default theme

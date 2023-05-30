@@ -1,20 +1,36 @@
 import Head from 'next/head'
-import { Text, Flex, Button, Image } from '@chakra-ui/react'
+import NextLink from 'next/link'
+import { Text, Flex, Button, Link, useMediaQuery } from '@chakra-ui/react'
 
 
 export default function Home() {
+  const [isLargerThan600] = useMediaQuery("(min-width: 800px)", {
+    ssr: true,
+    fallback: false
+  })
+
   return (
     <Flex w='100%' h='100vh' bgColor='black' direction='column'>
-      <Flex pl='10%' pr='10%' w='100%' justify='space-between' align='center' h='8vh'>
+      <Flex p={isLargerThan600 ? '0% 10%' : '20% 10%'} w='100%' justify={isLargerThan600 ? 'space-between' : 'center'} align='center' h='8vh'>
         <Text fontSize='30px'>GAINCOIN</Text>
-        <Button _hover={{ backgroundColor: 'orange', color: 'black'}} border='1px solid orange' borderRadius='0px' bgColor='black' onClick={() => window.location.href='/airdrop'}>join airdrop</Button>
+        <Link as={NextLink} href='/airdrop'>
+          <Button display={isLargerThan600 ? 'flex' : 'none'} _hover={{ backgroundColor: 'limegreen', color: 'black'}} border='1px solid limegreen' borderRadius='0px' bgColor='black'>join airdrop</Button>
+        </Link>
       </Flex>
-      <Flex h='84vh' align='center' justify='center'>
+      <Flex h={isLargerThan600 ? '84vh' : '70vh'} align='center' justify='center'>
         <Flex>
         </Flex>
-        <Flex direction='column' textAlign='center'>
+        <Flex p={isLargerThan600 ? '' : '0% 10%'} direction='column' textAlign='center'>
           <Text>A revolutionary meme coin that will take your gains far past the moon.</Text>
-          <Text mt='1rem'>COMING SOON...</Text>
+          <Text fontSize='1.5rem' mt='2rem'>COMING SOON...</Text>
+          {!isLargerThan600 ? 
+            <Flex justify='center'>
+              <Link as={NextLink} href='/airdrop'>
+                <Button mt='2rem' _hover={{ backgroundColor: 'limegreen', color: 'black'}} border='1px solid limegreen' borderRadius='0px' bgColor='black'>join airdrop</Button>
+              </Link>
+            </Flex>
+            : null
+          }
         </Flex>
       </Flex>
     </Flex>
