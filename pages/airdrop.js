@@ -208,7 +208,7 @@ export default function Airdrop() {
                 </Link>
                 {isLargerThan600 ? 
                     <Flex>
-                        <Button mr='2rem' _hover={{ backgroundColor: 'limegreen', color: 'black' }} border='1px solid limegreen' borderRadius='0px' bgColor='black' onClick={() => getInviteCode()}>{currentUser ? currentUser.referralCode === '' ? 'invite code' : currentUser.referralCode : 'invite code'}</Button>
+                        <Button mr='2rem' _hover={{ backgroundColor: 'limegreen', color: 'black' }} border='1px solid limegreen' borderRadius='0px' bgColor='black' onClick={() => getInviteCode()}>{currentUser ? currentUser.referralCode : 'invite code'}</Button>
                         <Popover>
                             <PopoverTrigger>
                                 <Button _hover={{ backgroundColor: 'limegreen', color: 'black'}} border='1px solid limegreen' borderRadius='0px' bgColor='black' onClick={() => {getLeaderboard(), getCurrentUser()}}>leaderboard</Button>
