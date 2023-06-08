@@ -208,7 +208,7 @@ export default function Airdrop() {
                 </Link>
                 {isLargerThan600 ? 
                     <Flex>
-                        <Button mr='2rem' _hover={{ backgroundColor: 'limegreen', color: 'black' }} border='1px solid limegreen' borderRadius='0px' bgColor='black' onClick={() => getInviteCode()}>{currentUser ? currentUser.referralCode : 'invite code'}</Button>
+                        <Button mr='2rem' _hover={{ backgroundColor: 'limegreen', color: 'black' }} border='1px solid limegreen' borderRadius='0px' bgColor='black' onClick={() => getInviteCode()}>{currentUser ? currentUser.referralCode === '' ? 'invite code' : currentUser.referralCode : 'invite code'}</Button>
                         <Popover>
                             <PopoverTrigger>
                                 <Button _hover={{ backgroundColor: 'limegreen', color: 'black'}} border='1px solid limegreen' borderRadius='0px' bgColor='black' onClick={() => {getLeaderboard(), getCurrentUser()}}>leaderboard</Button>
@@ -264,7 +264,7 @@ export default function Airdrop() {
                         <MenuButton onClick={() => getCurrentUser()} borderRadius='0px' as={IconButton} aria-label='Menu' icon={<HamburgerIcon />} variant='outline' />
                         <MenuList borderRadius='0px' bgColor='black'> 
                             <MenuItem onClick={() => getInviteCode()} p='1rem' bgColor='black'>
-                                {currentUser ? currentUser.referralCode : 'Invite Code'}
+                                <Text>{currentUser ? currentUser.referralCode : 'Invite Code'}</Text>
                             </MenuItem>
                             <MenuItem onClick={() => {getLeaderboard(), getCurrentUser(), onOpen()}} p='1rem' bgColor='black'>
                                 Leaderboard
@@ -338,7 +338,14 @@ export default function Airdrop() {
                 <Flex mt='1rem' w={isLargerThan600 ? '25%': '100%'} align='center' direction='column' justify='space-between'>
                     <Input onChange={(e) => setReferrer(e.target.value)} mt='1rem' borderRadius='none' w='40%' textAlign='center' placeholder='invite code'/>
                 </Flex>
-                <Button _hover={{ backgroundColor: 'lightgreen', color: 'black'}} mt='2rem' borderRadius='none' color='black' bgColor='limegreen' onClick={() => postData()}>submit</Button>
+                <Button _hover={{ backgroundColor: 'lightgreen', color: 'black'}} mt='3rem' borderRadius='none' color='black' bgColor='limegreen' onClick={() => postData()}>submit</Button>
+            </Flex>
+            <Flex w={isLargerThan600 ? '100%' : '120%'} h='8vh' align='center' justify='space-evenly' direction='column'>
+                <Text textAlign='center' w={isLargerThan600 ? '50%' : '90%'}>Users who interact with our social media will be rewarded</Text>
+                <Flex w={isLargerThan600 ? '20%' : '90%'} pt={isLargerThan600 ? '' : '1rem'} justify='space-evenly'>
+                    <Button fontSize='14px' borderRadius='0px' border='1px solid gray' bgColor='#000' color='white'>Interact Twitter</Button>
+                    <Button fontSize='14px' borderRadius='0px' border='1px solid gray' bgColor='#000' color='white'>Join Telegram</Button>
+                </Flex>
             </Flex>
         </Flex>
     )
