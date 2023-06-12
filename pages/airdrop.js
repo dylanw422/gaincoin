@@ -348,7 +348,7 @@ export default function Airdrop() {
                     </Menu>
                 }
             </Flex>
-            <Flex mt={isLargerThan600 ? '0px' : '3rem'} h={isLargerThan600 ? '84vh' : '65vh'} w={isLargerThan600 ? '100%': '120%'} justify='center' align='center' direction='column'>
+            <Flex mt={isLargerThan600 ? '0px' : '3rem'} h={isLargerThan600 ? '84vh' : '75vh'} w={isLargerThan600 ? '100%': '120%'} justify='center' align='center' direction='column'>
                 <Flex w={isLargerThan600 ? '25%': '80%'} align='center' justify='space-between'>
                     <Text w={isLargerThan600 ? '80%' : '55%'} pr='2rem'>Connect to Twitter to earn rewards</Text>
                     <Button _hover={{ backgroundColor: '#66ccff', color: 'white'}} bgColor='#1da1f2' borderRadius='none' onClick={() => {if (!session) {signIn('twitter')}}}>{session ? 'Connected' : 'Twitter'}</Button>
