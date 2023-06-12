@@ -247,7 +247,6 @@ export default function Airdrop() {
                                         )
                                     })}
                                 </PopoverBody>
-                                {!leaderboards.slice(0,100).some(obj => obj['twitter'] === twitter) ? 
                                     <PopoverFooter>
                                         <Flex p='1rem 0rem' justify='space-between'>
                                             <Text w='4rem' textShadow='0 0 1px limegreen, 0 0 2px limegreen, 0 0 5px limegreen, 0 0 12px limegreen'>#{leaderboards.findIndex(obj => obj['twitter'] === twitter) + 1}</Text>
@@ -255,35 +254,42 @@ export default function Airdrop() {
                                             <Text w='7rem' textAlign='center' textShadow='0 0 1px limegreen, 0 0 2px limegreen, 0 0 5px limegreen, 0 0 12px limegreen'>{currentUser?.points}</Text>
                                             <Text w='5rem' textAlign='center' textShadow='0 0 1px white, 0 0 2px white, 0 0 5px white, 0 0 12px white'>1x</Text>
                                         </Flex> 
-                                    </PopoverFooter>: null
-                                }
+                                    </PopoverFooter>
                             </PopoverContent>
                         </Popover>
                     </Flex> : 
                     <Menu>
                         <MenuButton onClick={() => getCurrentUser()} borderRadius='0px' as={IconButton} aria-label='Menu' icon={<HamburgerIcon />} variant='outline' />
                         <MenuList borderRadius='0px' bgColor='black'> 
-                            <MenuItem onClick={() => getInviteCode()} p='1rem' bgColor='black'>
-                                <Text>{currentUser ? currentUser.referralCode : 'Invite Code'}</Text>
-                            </MenuItem>
+                            <Text p='1rem' onClick={() => getInviteCode()}>{currentUser ? currentUser.referralCode : 'Invite Code'}</Text>
                             <MenuItem onClick={() => {getLeaderboard(), getCurrentUser(), onOpen()}} p='1rem' bgColor='black'>
                                 Leaderboard
                                 <Modal scrollBehavior='inside' onClose={onClose} isOpen={isOpen} isCentered>
-                                    <ModalOverlay bgColor='blackAlpha.900'/>
+                                    <ModalOverlay bgColor='#000'/>
                                     <ModalContent w='90%' h='70%' borderRadius='0%' bgColor='black' border='1px solid gray'>
                                     <ModalHeader textAlign='center'>Leaderboard</ModalHeader>
                                     <ModalBody>
-                                        {!leaderboards.slice(0,100).some(obj => obj['twitter'] === twitter) ? 
                                          <Flex pb='1.5rem' direction='column'>
                                             <Text pb='1rem' fontSize='18px' textAlign='center' textShadow='0 0 1px limegreen, 0 0 2px limegreen, 0 0 5px limegreen'>YOUR RANK</Text>
                                             <Flex fontSize='14px' justify='space-between'>
-                                                <Text w='4rem' textShadow='0 0 1px limegreen, 0 0 2px limegreen, 0 0 5px limegreen'>#{leaderboards.findIndex(obj => obj['twitter'] === twitter) + 1}</Text>
-                                                <Text w='9rem' textShadow='0 0 1px limegreen, 0 0 2px limegreen, 0 0 5px limegreen'>{currentUser?.address?.slice(0,10)}...</Text>
-                                                <Text w='7rem' textAlign='center' textShadow='0 0 1px limegreen, 0 0 2px limegreen, 0 0 5px limegreen'>{currentUser?.points}</Text>
-                                                <Text w='5rem' textAlign='center' textShadow='0 0 1px white, 0 0 2px white, 0 0 5px white'>1x</Text>
-                                            </Flex> 
-                                        </Flex>: null
-                                        }
+                                                <Text w='4rem' textShadow='0 0 1px limegreen, 0 0 2px limegreen, 0 0 5px limegreen'>
+                                                    #{leaderboards.findIndex(obj => obj['twitter'] === twitter) + 1}
+                                                </Text>
+                                                <Text w='9rem' textShadow='0 0 1px limegreen, 0 0 2px limegreen, 0 0 5px limegreen'>
+                                                    {currentUser?.address?.slice(0,10)}...
+                                                </Text>
+                                                <Text w='7rem' textAlign='center' textShadow='0 0 1px limegreen, 0 0 2px limegreen, 0 0 5px limegreen'>
+                                                    {currentUser?.points}
+                                                </Text>
+                                                <Text color='white'
+                                                    w='5rem' textAlign='center' textShadow='0 0 1px limegreen, 0 0 2px limegreen, 0 0 5px limegreen'>
+                                                    {leaderboards.findIndex(obj => obj['twitter'] === twitter) < 10 ? '3x' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 25 ? '2.5x' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 50 ? '2x' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 100 ? '1.5x' : '1x'}
+                                                </Text>
+                                            </Flex>
+                                        </Flex>
                                             <Flex fontSize='14px' mb='.75rem' justify='space-between'>
                                                 <Text w='4rem' color='limegreen'>#</Text>
                                                 <Text w='9rem' color='limegreen'>ADDRESS</Text>
@@ -326,7 +332,7 @@ export default function Airdrop() {
                     </Menu>
                 }
             </Flex>
-            <Flex mt={isLargerThan600 ? '0px' : '3rem'} h='84vh' w={isLargerThan600 ? '100%': '120%'} justify='center' align='center' direction='column'>
+            <Flex mt={isLargerThan600 ? '0px' : '3rem'} h={isLargerThan600 ? '84vh' : '70vh'} w={isLargerThan600 ? '100%': '120%'} justify='center' align='center' direction='column'>
                 <Flex w={isLargerThan600 ? '25%': '80%'} align='center' justify='space-between'>
                     <Text w={isLargerThan600 ? '80%' : '55%'} pr='2rem'>Connect to Twitter to earn rewards</Text>
                     <Button _hover={{ backgroundColor: '#66ccff', color: 'white'}} bgColor='#1da1f2' borderRadius='none' onClick={() => {if (!session) {signIn('twitter')}}}>{session ? 'Connected' : 'Twitter'}</Button>
@@ -341,10 +347,10 @@ export default function Airdrop() {
                 <Button _hover={{ backgroundColor: 'lightgreen', color: 'black'}} mt='3rem' borderRadius='none' color='black' bgColor='limegreen' onClick={() => postData()}>submit</Button>
             </Flex>
             <Flex w={isLargerThan600 ? '100%' : '120%'} h='8vh' align='center' justify='space-evenly' direction='column'>
-                <Text textAlign='center' w={isLargerThan600 ? '50%' : '90%'}>Users who interact with our social media will be rewarded</Text>
+                <Text textAlign='center' w={isLargerThan600 ? '50%' : '90%'}>Users who interact with our social media may be rewarded</Text>
                 <Flex w={isLargerThan600 ? '20%' : '90%'} pt={isLargerThan600 ? '' : '1rem'} justify='space-evenly'>
-                    <Button fontSize='14px' borderRadius='0px' border='1px solid gray' bgColor='#000' color='white'>Interact Twitter</Button>
-                    <Button fontSize='14px' borderRadius='0px' border='1px solid gray' bgColor='#000' color='white'>Join Telegram</Button>
+                    <Button fontSize='14px' borderRadius='0px' border='1px solid gray' bgColor='#000' color='white' onClick={() => window.open('https://twitter.com/GainCoinXYZ?s=20')}>Twitter</Button>
+                    <Button fontSize='14px' borderRadius='0px' border='1px solid gray' bgColor='#000' color='white' onClick={() => window.open('https://t.me/GainCoinXYZ')}>Telegram</Button>
                 </Flex>
             </Flex>
         </Flex>
