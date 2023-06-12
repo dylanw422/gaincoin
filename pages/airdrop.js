@@ -201,7 +201,7 @@ export default function Airdrop() {
     }
 
     return (
-        <Flex direction='column'>
+        <Flex direction='column' overflowX='none'>
             <Flex mt={isLargerThan600 ? '0px' : '3rem'} pl='10%' pr='10%' w={isLargerThan600 ? '100%' : '120%'} justify='space-between' align='center' h='8vh'>
                 <Link _hover={{ textDecoration: 'none'}} as={NextLink} href='/'>
                     <Text fontSize='30px'>GAINCOIN</Text>
@@ -214,7 +214,7 @@ export default function Airdrop() {
                                 <Button _hover={{ backgroundColor: 'limegreen', color: 'black'}} border='1px solid limegreen' borderRadius='0px' bgColor='black' onClick={() => {getLeaderboard(), getCurrentUser()}}>leaderboard</Button>
                             </PopoverTrigger>
                             <PopoverContent w='100%' bgColor='black' borderRadius='0px' border='1px solid gray'>
-                                <PopoverBody height='29rem' overflow='scroll'>
+                                <PopoverBody height='29rem' overflowY='scroll' overflowX='none'>
                                     <Flex pb='.5rem' justify='space-between'>
                                         <Text w='4rem' color='limegreen'>#</Text>
                                         <Text w='9rem' color='limegreen'>ADDRESS</Text>
@@ -252,7 +252,18 @@ export default function Airdrop() {
                                             <Text w='4rem' textShadow='0 0 1px limegreen, 0 0 2px limegreen, 0 0 5px limegreen, 0 0 12px limegreen'>#{leaderboards.findIndex(obj => obj['twitter'] === twitter) + 1}</Text>
                                             <Text w='9rem' textShadow='0 0 1px limegreen, 0 0 2px limegreen, 0 0 5px limegreen, 0 0 12px limegreen'>{currentUser?.address?.slice(0,10)}...</Text>
                                             <Text w='7rem' textAlign='center' textShadow='0 0 1px limegreen, 0 0 2px limegreen, 0 0 5px limegreen, 0 0 12px limegreen'>{currentUser?.points}</Text>
-                                            <Text w='5rem' textAlign='center' textShadow='0 0 1px white, 0 0 2px white, 0 0 5px white, 0 0 12px white'>1x</Text>
+                                            <Text w='5rem' textAlign='center' color={leaderboards.findIndex(obj => obj['twitter'] === twitter) < 10 ? '#FFD700' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 25 ? '#8A2BE2' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 50 ? '#68BBE3' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 100 ? '#FF69B4' : 'white'} 
+                                                    textShadow={leaderboards.findIndex(obj => obj['twitter'] === twitter) < 10 ? '0 0 1px #FFD700, 0 0 2px #FFD700, 0 0 5px #FFD700, 0 0 12px #FFD700' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 25 ? '0 0 1px #8A2BE2, 0 0 2px #8A2BE2, 0 0 5px #8A2BE2, 0 0 12px #8A2BE2' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 50 ? '0 0 1px #68BBE3, 0 0 2px #68BBE3, 0 0 5px #68BBE3, 0 0 12px #68BBE3' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 100 ? '0 0 1px #FF69B4, 0 0 2px #FF69B4, 0 0 5px #FF69B4, 0 0 12px #FF69B4' : 'white'}>
+                                                    {leaderboards.findIndex(obj => obj['twitter'] === twitter) < 10 ? '3x' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 25 ? '2.5x' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 50 ? '2x' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 100 ? '1.5x' : '1x'}</Text>
                                         </Flex> 
                                     </PopoverFooter>
                             </PopoverContent>
@@ -281,13 +292,18 @@ export default function Airdrop() {
                                                 <Text w='7rem' textAlign='center' textShadow='0 0 1px limegreen, 0 0 2px limegreen, 0 0 5px limegreen'>
                                                     {currentUser?.points}
                                                 </Text>
-                                                <Text color='white'
-                                                    w='5rem' textAlign='center' textShadow='0 0 1px limegreen, 0 0 2px limegreen, 0 0 5px limegreen'>
+                                            <Text w='5rem' textAlign='center' color={leaderboards.findIndex(obj => obj['twitter'] === twitter) < 10 ? '#FFD700' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 25 ? '#8A2BE2' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 50 ? '#68BBE3' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 100 ? '#FF69B4' : 'white'} 
+                                                    textShadow={leaderboards.findIndex(obj => obj['twitter'] === twitter) < 10 ? '0 0 1px #FFD700, 0 0 2px #FFD700, 0 0 5px #FFD700, 0 0 12px #FFD700' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 25 ? '0 0 1px #8A2BE2, 0 0 2px #8A2BE2, 0 0 5px #8A2BE2, 0 0 12px #8A2BE2' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 50 ? '0 0 1px #68BBE3, 0 0 2px #68BBE3, 0 0 5px #68BBE3, 0 0 12px #68BBE3' :
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 100 ? '0 0 1px #FF69B4, 0 0 2px #FF69B4, 0 0 5px #FF69B4, 0 0 12px #FF69B4' : 'white'}>
                                                     {leaderboards.findIndex(obj => obj['twitter'] === twitter) < 10 ? '3x' :
                                                     leaderboards.findIndex(obj => obj['twitter'] === twitter) < 25 ? '2.5x' :
                                                     leaderboards.findIndex(obj => obj['twitter'] === twitter) < 50 ? '2x' :
-                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 100 ? '1.5x' : '1x'}
-                                                </Text>
+                                                    leaderboards.findIndex(obj => obj['twitter'] === twitter) < 100 ? '1.5x' : '1x'}</Text>
                                             </Flex>
                                         </Flex>
                                             <Flex fontSize='14px' mb='.75rem' justify='space-between'>
@@ -332,7 +348,7 @@ export default function Airdrop() {
                     </Menu>
                 }
             </Flex>
-            <Flex mt={isLargerThan600 ? '0px' : '3rem'} h={isLargerThan600 ? '84vh' : '70vh'} w={isLargerThan600 ? '100%': '120%'} justify='center' align='center' direction='column'>
+            <Flex mt={isLargerThan600 ? '0px' : '3rem'} h={isLargerThan600 ? '84vh' : '65vh'} w={isLargerThan600 ? '100%': '120%'} justify='center' align='center' direction='column'>
                 <Flex w={isLargerThan600 ? '25%': '80%'} align='center' justify='space-between'>
                     <Text w={isLargerThan600 ? '80%' : '55%'} pr='2rem'>Connect to Twitter to earn rewards</Text>
                     <Button _hover={{ backgroundColor: '#66ccff', color: 'white'}} bgColor='#1da1f2' borderRadius='none' onClick={() => {if (!session) {signIn('twitter')}}}>{session ? 'Connected' : 'Twitter'}</Button>
