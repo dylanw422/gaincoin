@@ -21,7 +21,7 @@ export default function Home() {
         <Flex>
         </Flex>
         <Flex p={isLargerThan600 ? '' : '0% 10%'} direction='column' textAlign='center'>
-          <Text>A revolutionary coin that will take your gains far past the moon.</Text>
+          <Text>The revolutionary coin that will take your gains far past the moon.</Text>
           <Text fontSize='1.5rem' mt='2rem'>COMING SOON...</Text>
           {!isLargerThan600 ? 
             <Flex justify='center'>
