@@ -366,12 +366,13 @@ export default function Airdrop() {
                 <Flex mt='1rem' w={isLargerThan600 ? '25%': '100%'} align='center' direction='column' justify='space-between'>
                     <Input onChange={(e) => setReferrer(e.target.value)} mt='1rem' borderRadius='none' w='40%' textAlign='center' placeholder='invite code'/>
                 </Flex>
-                <Flex justify='space-evenly' align='center' mt='3rem' w={isLargerThan600 ? '15%' : '80%'}>
-                    <Button _hover={{ backgroundColor: 'lightgreen', color: 'black'}} borderRadius='none' color='black' bgColor='limegreen' onClick={() => postData()}>submit</Button>
-                    <Button bgColor='black' border='1px solid limegreen' borderRadius='0' onClick={handleOpenHowTo}>How It Works</Button>
-                    <Modal isOpen={isOpenHowTo} onClose={handleCloseHowTo}>
-                        <ModalOverlay />
-                        <ModalContent w='90%' h='70%' borderRadius='0%' bgColor='black' border='1px solid gray'>
+                <Flex justify='space-evenly' align='center' mt='3rem'>
+                    <Button m='0rem 1rem' _hover={{ backgroundColor: 'lightgreen', color: 'black'}} borderRadius='none' color='black' bgColor='limegreen' onClick={() => postData()}>submit</Button>
+                    <Button m='0rem 1rem' bgColor='black' border='1px solid limegreen' borderRadius='0' onClick={handleOpenHowTo}>How It Works</Button>
+                </Flex>
+                <Modal isOpen={isOpenHowTo} onClose={handleCloseHowTo}>
+                        <ModalOverlay bg='blackAlpha.800' />
+                        <ModalContent w={isLargerThan600 ? '25%' : '90%'} borderRadius='0%' bgColor='black' border='1px solid gray'>
                             <ModalBody bgColor='black' borderRadius='0px' border='1px solid gray'>
                                 <Text>
                                     <Highlight query='social activity' styles={{ px: '1', bg: 'limegreen', color: 'black'}}>
@@ -401,7 +402,6 @@ export default function Airdrop() {
                             </ModalBody>
                         </ModalContent>
                     </Modal>
-                </Flex>
             </Flex>
             <Flex w={isLargerThan600 ? '100%' : '120%'} h='8vh' align='center' justify='space-evenly' direction='column'>
                 <Text textAlign='center' w={isLargerThan600 ? '50%' : '90%'}>Users who interact with our social media may be rewarded</Text>
