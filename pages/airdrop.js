@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import NextLink from 'next/link'
-import { Text, Flex, Button, Input, useToast, Box, Link, IconButton, useDisclosure, Tooltip } from "@chakra-ui/react"
+import { Text, Flex, Button, Input, useToast, Box, Link, IconButton, useDisclosure, Highlight} from "@chakra-ui/react"
 import { Popover, PopoverTrigger, PopoverContent, PopoverBody, PopoverFooter, useMediaQuery } from '@chakra-ui/react'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody } from '@chakra-ui/react'
-import { InfoIcon } from '@chakra-ui/icons'
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import { useSession, signIn, signOut } from 'next-auth/react'
@@ -24,6 +23,12 @@ export default function Airdrop() {
         ssr: true,
         fallback: false
     })
+    const [isOpenLeaderboard, setIsOpenLeaderboard] = useState(false)
+    const [isOpenHowTo, setIsOpenHowTo] = useState(false)
+    const handleOpenLeaderboard = () => {setIsOpenLeaderboard(true)}
+    const handleOpenHowTo = () => {setIsOpenHowTo(true)}
+    const handleCloseLeaderboard = () => {setIsOpenLeaderboard(false)}
+    const handleCloseHowTo = () => {setIsOpenHowTo(false)}
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     // Success & Error Toasts
@@ -269,17 +274,14 @@ export default function Airdrop() {
                                     </PopoverFooter>
                             </PopoverContent>
                         </Popover>
-                        <Flex  w='4rem' align='center' justify='center'>
-                            <Tooltip bgColor='black' border='1px solid gray' color='white' textAlign='center'  label='Share your invite code and get 10,000 points for each person who signs up with your code!'><InfoIcon /></Tooltip>
-                        </Flex>
                     </Flex> : 
                     <Menu>
                         <MenuButton onClick={() => getCurrentUser()} borderRadius='0px' as={IconButton} aria-label='Menu' icon={<HamburgerIcon />} variant='outline' />
                         <MenuList borderRadius='0px' bgColor='black'> 
                             <Text p='1rem' onClick={() => getInviteCode()}>{currentUser ? currentUser.referralCode : 'Invite Code'}</Text>
-                            <MenuItem onClick={() => {getLeaderboard(), getCurrentUser(), onOpen()}} p='1rem' bgColor='black'>
+                            <MenuItem onClick={() => {getLeaderboard(), getCurrentUser(), handleOpenLeaderboard()}} p='1rem' bgColor='black'>
                                 Leaderboard
-                                <Modal scrollBehavior='inside' onClose={onClose} isOpen={isOpen} isCentered>
+                                <Modal scrollBehavior='inside' onClose={handleCloseLeaderboard} isOpen={isOpenLeaderboard} isCentered>
                                     <ModalOverlay bgColor='#000'/>
                                     <ModalContent w='90%' h='70%' borderRadius='0%' bgColor='black' border='1px solid gray'>
                                     <ModalHeader textAlign='center'>Leaderboard</ModalHeader>
@@ -343,7 +345,7 @@ export default function Airdrop() {
                                         })}
                                     </ModalBody>
                                     <ModalFooter>
-                                        <Button borderRadius='0px' onClick={onClose}>Close</Button>
+                                        <Button borderRadius='0px' onClick={handleCloseLeaderboard}>Close</Button>
                                     </ModalFooter>
                                     </ModalContent>
                                 </Modal>
@@ -354,7 +356,7 @@ export default function Airdrop() {
             </Flex>
             <Flex mt={isLargerThan600 ? '0px' : '3rem'} h={isLargerThan600 ? '84vh' : '75vh'} w={isLargerThan600 ? '100%': '120%'} justify='center' align='center' direction='column'>
                 <Flex w={isLargerThan600 ? '25%': '80%'} align='center' justify='space-between'>
-                    <Text w={isLargerThan600 ? '80%' : '55%'} pr='2rem'>Connect to Twitter to earn rewards <Tooltip bgColor='black' border='1px solid gray' color='white' textAlign='center' label='Connecting to Twitter will reward you with points based on your social activity upon sign up'><InfoIcon /></Tooltip></Text>
+                    <Text w={isLargerThan600 ? '80%' : '55%'} pr='2rem'>Connect to Twitter to earn rewards</Text>
                     <Button _hover={{ backgroundColor: '#66ccff', color: 'white'}} bgColor='#1da1f2' borderRadius='none' onClick={() => {if (!session) {signIn('twitter')}}}>{session ? 'Connected' : 'Twitter'}</Button>
                 </Flex>
                 <Flex mt='2rem' w={isLargerThan600 ? '25%': '80%'} align='center' justify='space-between'>
@@ -364,7 +366,42 @@ export default function Airdrop() {
                 <Flex mt='1rem' w={isLargerThan600 ? '25%': '100%'} align='center' direction='column' justify='space-between'>
                     <Input onChange={(e) => setReferrer(e.target.value)} mt='1rem' borderRadius='none' w='40%' textAlign='center' placeholder='invite code'/>
                 </Flex>
-                <Button _hover={{ backgroundColor: 'lightgreen', color: 'black'}} mt='3rem' borderRadius='none' color='black' bgColor='limegreen' onClick={() => postData()}>submit</Button>
+                <Flex justify='space-evenly' align='center' mt='3rem' w={isLargerThan600 ? '15%' : '80%'}>
+                    <Button _hover={{ backgroundColor: 'lightgreen', color: 'black'}} borderRadius='none' color='black' bgColor='limegreen' onClick={() => postData()}>submit</Button>
+                    <Button bgColor='black' border='1px solid limegreen' borderRadius='0' onClick={handleOpenHowTo}>How It Works</Button>
+                    <Modal isOpen={isOpenHowTo} onClose={handleCloseHowTo}>
+                        <ModalOverlay />
+                        <ModalContent w='90%' h='70%' borderRadius='0%' bgColor='black' border='1px solid gray'>
+                            <ModalBody bgColor='black' borderRadius='0px' border='1px solid gray'>
+                                <Text>
+                                    <Highlight query='social activity' styles={{ px: '1', bg: 'limegreen', color: 'black'}}>
+                                        1) Connect to Twitter to earn your initial rewards. Rewards are based on social activity
+                                    </Highlight>
+                                </Text>
+                                <Text  mt='1rem'>
+                                    <Highlight query='airdrop' styles={{ px: '1', bg: 'limegreen', color: 'black'}}>
+                                        2) Enter your ETH address. This is the address you will receive your airdrop.
+                                    </Highlight>
+                                </Text>
+                                <Text mt='1rem'>
+                                    <Highlight query='invite code' styles={{ px: '1', bg: 'limegreen', color: 'black'}}>
+                                        3) Use an invite code if you have one!
+                                    </Highlight>
+                                </Text>
+                                <Text mt='1rem'>
+                                    <Highlight query='1.1x points' styles={{ px: '1', bg: 'limegreen', color: 'black'}}>
+                                        You will be granted your own personal invite code after submission! Share with as many people as you can! Each invite will earn you 1.1x points
+                                    </Highlight>
+                                </Text>
+                                <Text mt='1rem'>
+                                    <Highlight query='additional multiplier' styles={{ px: '1', bg: 'limegreen', color: 'black'}}>
+                                        Remember to check the Leaderboard! Moving up the leaderboard will grant you an additional multiplier reward on Airdrop Day
+                                    </Highlight>
+                                </Text>
+                            </ModalBody>
+                        </ModalContent>
+                    </Modal>
+                </Flex>
             </Flex>
             <Flex w={isLargerThan600 ? '100%' : '120%'} h='8vh' align='center' justify='space-evenly' direction='column'>
                 <Text textAlign='center' w={isLargerThan600 ? '50%' : '90%'}>Users who interact with our social media may be rewarded</Text>
