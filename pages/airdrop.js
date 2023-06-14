@@ -406,7 +406,7 @@ export default function Airdrop() {
             <Flex w={isLargerThan600 ? '100%' : '120%'} h='8vh' align='center' justify='space-evenly' direction='column'>
                 <Text textAlign='center' w={isLargerThan600 ? '50%' : '90%'}>Users who interact with our social media may be rewarded</Text>
                 <Flex w={isLargerThan600 ? '20%' : '90%'} pt={isLargerThan600 ? '' : '1rem'} justify='space-evenly'>
-                    <Button fontSize='14px' borderRadius='0px' border='1px solid gray' bgColor='#000' color='white' onClick={() => window.open('https://twitter.com/GainCoinXYZ?s=20')}>Twitter</Button>
+                    <Button fontSize='14px' borderRadius='0px' border='1px solid gray' bgColor='#000' color='white' onClick={() => window.open('https://twitter.com/intent/retweet?tweet_id=1669088403575697408')}>Twitter</Button>
                     <Button fontSize='14px' borderRadius='0px' border='1px solid gray' bgColor='#000' color='white' onClick={() => window.open('https://t.me/GainCoinXYZ')}>Telegram</Button>
                 </Flex>
             </Flex>
