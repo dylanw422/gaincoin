@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import NextLink from 'next/link'
-import { Text, Flex, Button, Input, useToast, Box, Link, IconButton, useDisclosure } from "@chakra-ui/react"
+import { Text, Flex, Button, Input, useToast, Box, Link, IconButton, useDisclosure, Tooltip } from "@chakra-ui/react"
 import { Popover, PopoverTrigger, PopoverContent, PopoverBody, PopoverFooter, useMediaQuery } from '@chakra-ui/react'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody } from '@chakra-ui/react'
+import { InfoIcon } from '@chakra-ui/icons'
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import { useSession, signIn, signOut } from 'next-auth/react'
@@ -268,6 +269,9 @@ export default function Airdrop() {
                                     </PopoverFooter>
                             </PopoverContent>
                         </Popover>
+                        <Flex  w='4rem' align='center' justify='center'>
+                            <Tooltip bgColor='black' border='1px solid gray' color='white' textAlign='center'  label='Share your invite code and get 10,000 points for each person who signs up with your code!'><InfoIcon /></Tooltip>
+                        </Flex>
                     </Flex> : 
                     <Menu>
                         <MenuButton onClick={() => getCurrentUser()} borderRadius='0px' as={IconButton} aria-label='Menu' icon={<HamburgerIcon />} variant='outline' />
@@ -350,7 +354,7 @@ export default function Airdrop() {
             </Flex>
             <Flex mt={isLargerThan600 ? '0px' : '3rem'} h={isLargerThan600 ? '84vh' : '75vh'} w={isLargerThan600 ? '100%': '120%'} justify='center' align='center' direction='column'>
                 <Flex w={isLargerThan600 ? '25%': '80%'} align='center' justify='space-between'>
-                    <Text w={isLargerThan600 ? '80%' : '55%'} pr='2rem'>Connect to Twitter to earn rewards</Text>
+                    <Text w={isLargerThan600 ? '80%' : '55%'} pr='2rem'>Connect to Twitter to earn rewards <Tooltip bgColor='black' border='1px solid gray' color='white' textAlign='center' label='Connecting to Twitter will reward you with points based on your social activity upon sign up'><InfoIcon /></Tooltip></Text>
                     <Button _hover={{ backgroundColor: '#66ccff', color: 'white'}} bgColor='#1da1f2' borderRadius='none' onClick={() => {if (!session) {signIn('twitter')}}}>{session ? 'Connected' : 'Twitter'}</Button>
                 </Flex>
                 <Flex mt='2rem' w={isLargerThan600 ? '25%': '80%'} align='center' justify='space-between'>
